@@ -4,6 +4,12 @@ An end-to-end data analytics project that explores **119,390 hotel booking recor
 
 ---
 
+## 📊 Power BI Dashboard Preview
+
+![Power BI Hotel Booking Dashboard](powerbi/powerbi_dashboard.jpg)
+
+---
+
 ## 📂 Folder Structure
 
 ```
@@ -15,7 +21,7 @@ DA Project/
 ├── frontend/            → Single-page dashboard (HTML / CSS / JS)
 ├── reports/             → Executive report, statistical summary & cleaned data
 ├── charts/              → Pre-generated EDA visualisations (10 PNGs)
-├── powerbi/             → Power BI report (DA_BI.pbix)
+├── powerbi/             → Power BI reports (DA_BI.pbix) & dashboard screenshots
 ├── start_backend.bat    → One-click script to launch the backend server
 └── README.md            → This file
 ```
