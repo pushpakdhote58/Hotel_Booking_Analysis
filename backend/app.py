@@ -8,7 +8,6 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Optional
 
-import mysql.connector
 from mysql.connector import pooling
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
