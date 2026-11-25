@@ -4,9 +4,13 @@ An end-to-end data analytics project that explores **119,390 hotel booking recor
 
 ---
 
-## 📊 Power BI Dashboard Preview
+## 📊 Power BI Dashboard Previews
 
+### Dashboard View 1: Hotel Booking Analytics
 ![Power BI Hotel Booking Dashboard](powerbi/powerbi_dashboard.jpg)
+
+### Dashboard View 2: Customer & Booking Operations
+![Power BI Customer & Booking Operations](powerbi/powerbi_dashboard_2.jpg)
 
 ---
 
