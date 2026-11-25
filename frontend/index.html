@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking & Reservation Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0F766E" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>Hotel Analytics</span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="nav-item active" data-page="overview"><span class="nav-icon">📊</span> Overview</a></li>
+            <li><a href="#" class="nav-item" data-page="revenue"><span class="nav-icon">💰</span> Revenue</a></li>
+            <li><a href="#" class="nav-item" data-page="occupancy"><span class="nav-icon">🏨</span> Occupancy</a></li>
+            <li><a href="#" class="nav-item" data-page="cancellations"><span class="nav-icon">❌</span> Cancellations</a></li>
+            <li><a href="#" class="nav-item" data-page="customers"><span class="nav-icon">👥</span> Customers</a></li>
+            <li><a href="#" class="nav-item" data-page="seasonal"><span class="nav-icon">📅</span> Seasonal Trends</a></li>
+            <li><a href="#" class="nav-item" data-page="powerbi"><span class="nav-icon">📈</span> Power BI</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="refresh-info">
+                <span class="refresh-label">Auto-refresh in</span>
+                <span class="refresh-countdown" id="countdown">30s</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1>Hotel Booking & Reservation Analytics</h1>
+            </div>
+            <div class="header-right">
+                <div class="connection-status" id="connectionStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connected</span>
+                </div>
+                <div class="last-updated" id="lastUpdated">Last updated: --</div>
+            </div>
+        </header>
+
+        <!-- Page: Overview -->
+        <section class="page active" id="page-overview">
+            <div class="kpi-grid" id="kpiGrid">
+                <div class="kpi-card kpi-teal">
+                    <div class="kpi-content">
+                        <span class="kpi-label">Total Bookings</span>
+                        <span class="kpi-value skeleton" id="kpi-total-bookings">--</span>
+                    </div>
+                    <div class="kpi-icon">🏷️</div>
+                </div>
+                <div class="kpi-card kpi-amber">
+                    <div class="kpi-content">
+                        <span class="kpi-label">Occupancy Rate</span>
+                        <span class="kpi-value skeleton" id="kpi-occupancy-rate">--</span>
+                    </div>
+                    <div class="kpi-icon">📊</div>
+                </div>
+                <div class="kpi-card kpi-blue">
+                    <div class="kpi-content">
+                        <span class="kpi-label">Total Revenue</span>
+                        <span class="kpi-value skeleton" id="kpi-total-revenue">--</span>
+                    </div>
+                    <div class="kpi-icon">💵</div>
+                </div>
+                <div class="kpi-card kpi-green">
+                    <div class="kpi-content">
+                        <span class="kpi-label">Avg Stay Duration</span>
+                        <span class="kpi-value skeleton" id="kpi-avg-stay">--</span>
+                    </div>
+                    <div class="kpi-icon">🌙</div>
+                </div>
+                <div class="kpi-card kpi-red">
+                    <div class="kpi-content">
+                        <span class="kpi-label">Cancellation Rate</span>
+                        <span class="kpi-value skeleton" id="kpi-cancel-rate">--</span>
+                    </div>
+                    <div class="kpi-icon">📉</div>
+                </div>
+                <div class="kpi-card kpi-purple">
+                    <div class="kpi-content">
+                        <span class="kpi-label">Avg Room Price</span>
+                        <span class="kpi-value skeleton" id="kpi-avg-price">--</span>
+                    </div>
+                    <div class="kpi-icon">💎</div>
+                </div>
+            </div>
+            <div class="charts-grid charts-2x2">
+                <div class="chart-card">
+                    <h3 class="chart-title">Monthly Booking Trend</h3>
+                    <div class="chart-container"><canvas id="chartMonthlyTrend"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Room Type Count</h3>
+                    <div class="chart-container"><canvas id="chartRoomType"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Booking Channel Distribution</h3>
+                    <div class="chart-container"><canvas id="chartChannel"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Revenue by Hotel</h3>
+                    <div class="chart-container"><canvas id="chartHotelRevenue"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Revenue -->
+        <section class="page" id="page-revenue">
+            <h2 class="page-title">Revenue Analysis</h2>
+            <div class="charts-grid charts-single">
+                <div class="chart-card chart-wide">
+                    <h3 class="chart-title">Monthly Revenue Trend</h3>
+                    <div class="chart-container chart-tall"><canvas id="chartRevenueTrend"></canvas></div>
+                </div>
+            </div>
+            <div class="charts-grid charts-2col">
+                <div class="chart-card">
+                    <h3 class="chart-title">Revenue by Hotel</h3>
+                    <div class="chart-container"><canvas id="chartRevenueHotel"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Revenue by Room Type</h3>
+                    <div class="chart-container"><canvas id="chartRevenueRoom"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Occupancy -->
+        <section class="page" id="page-occupancy">
+            <h2 class="page-title">Occupancy Analysis</h2>
+            <div class="charts-grid charts-3col">
+                <div class="chart-card">
+                    <h3 class="chart-title">Occupancy Rate</h3>
+                    <div class="chart-container"><canvas id="chartOccupancyGauge"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Stay Duration Distribution</h3>
+                    <div class="chart-container"><canvas id="chartDuration"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Weekend vs Weeknight Stays</h3>
+                    <div class="chart-container"><canvas id="chartWeekendWeeknight"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Cancellations -->
+        <section class="page" id="page-cancellations">
+            <h2 class="page-title">Cancellation Analysis</h2>
+            <div class="charts-grid charts-2x2">
+                <div class="chart-card">
+                    <h3 class="chart-title">Cancellations by Hotel</h3>
+                    <div class="chart-container"><canvas id="chartCancelHotel"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Cancellations by Deposit Type</h3>
+                    <div class="chart-container"><canvas id="chartCancelDeposit"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Cancellations by Customer Type</h3>
+                    <div class="chart-container"><canvas id="chartCancelCustomer"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Lead Time vs Cancellation Rate</h3>
+                    <div class="chart-container"><canvas id="chartLeadTimeCancel"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Customers -->
+        <section class="page" id="page-customers">
+            <h2 class="page-title">Customer Analysis</h2>
+            <div class="charts-grid charts-single">
+                <div class="chart-card chart-wide">
+                    <h3 class="chart-title">Top Nationalities</h3>
+                    <div class="chart-container chart-tall"><canvas id="chartNationalities"></canvas></div>
+                </div>
+            </div>
+            <div class="charts-grid charts-2col">
+                <div class="chart-card">
+                    <h3 class="chart-title">Customer Segments</h3>
+                    <div class="chart-container"><canvas id="chartSegments"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Revenue by Customer Segment</h3>
+                    <div class="chart-container"><canvas id="chartSegmentRevenue"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Seasonal Trends -->
+        <section class="page" id="page-seasonal">
+            <h2 class="page-title">Seasonal Trends</h2>
+            <div class="charts-grid charts-single">
+                <div class="chart-card chart-wide">
+                    <h3 class="chart-title">Seasonal Bookings by Month</h3>
+                    <div class="chart-container chart-tall"><canvas id="chartSeasonalBookings"></canvas></div>
+                </div>
+            </div>
+            <div class="charts-grid charts-2col">
+                <div class="chart-card">
+                    <h3 class="chart-title">Seasonal ADR (Avg Daily Rate)</h3>
+                    <div class="chart-container"><canvas id="chartSeasonalADR"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">Seasonal Revenue</h3>
+                    <div class="chart-container"><canvas id="chartSeasonalRevenue"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Power BI -->
+        <section class="page" id="page-powerbi">
+            <div class="pbi-header-row">
+                <h2 class="page-title">Power BI Visual Hub</h2>
+                <div class="pbi-mode-switcher">
+                    <button class="pbi-mode-btn active" data-pbi-mode="canvas">📊 Interactive Power BI Canvas</button>
+                    <button class="pbi-mode-btn" data-pbi-mode="report">📑 PDF / Exported Report Viewer</button>
+                    <button class="pbi-mode-btn" data-pbi-mode="cloud">🌐 Power BI Service Embed</button>
+                </div>
+            </div>
+
+            <!-- Mode 1: Interactive Power BI Canvas (No Login Required) -->
+            <div class="pbi-view" id="pbi-view-canvas">
+                <!-- Power BI Slicers Bar -->
+                <div class="pbi-slicer-bar">
+                    <div class="slicer-group">
+                        <span class="slicer-label">🏨 Hotel Property:</span>
+                        <div class="slicer-buttons" id="slicerHotel">
+                            <button class="slicer-btn active" data-value="all">All Hotels</button>
+                            <button class="slicer-btn" data-value="City Hotel">City Hotel</button>
+                            <button class="slicer-btn" data-value="Resort Hotel">Resort Hotel</button>
+                        </div>
+                    </div>
+                    <div class="slicer-group">
+                        <span class="slicer-label">📅 Arrival Year:</span>
+                        <div class="slicer-buttons" id="slicerYear">
+                            <button class="slicer-btn active" data-value="0">All Years</button>
+                            <button class="slicer-btn" data-value="2015">2015</button>
+                            <button class="slicer-btn" data-value="2016">2016</button>
+                            <button class="slicer-btn" data-value="2017">2017</button>
+                        </div>
+                    </div>
+                    <div class="slicer-live-tag">
+                        <span class="pulse-dot"></span> Live MySQL Synced
+                    </div>
+                </div>
+
+                <!-- Power BI KPI Tiles -->
+                <div class="pbi-kpi-row">
+                    <div class="pbi-tile">
+                        <div class="pbi-tile-num" id="pbi-kpi-bookings">--</div>
+                        <div class="pbi-tile-label">Total Bookings</div>
+                    </div>
+                    <div class="pbi-tile">
+                        <div class="pbi-tile-num" id="pbi-kpi-occupancy">--</div>
+                        <div class="pbi-tile-label">Occupancy Rate</div>
+                    </div>
+                    <div class="pbi-tile">
+                        <div class="pbi-tile-num" id="pbi-kpi-revenue">--</div>
+                        <div class="pbi-tile-label">Total Revenue</div>
+                    </div>
+                    <div class="pbi-tile">
+                        <div class="pbi-tile-num" id="pbi-kpi-duration">--</div>
+                        <div class="pbi-tile-label">Avg Stay Duration</div>
+                    </div>
+                    <div class="pbi-tile">
+                        <div class="pbi-tile-num" id="pbi-kpi-cancellation">--</div>
+                        <div class="pbi-tile-label">Cancellation Rate</div>
+                    </div>
+                    <div class="pbi-tile">
+                        <div class="pbi-tile-num" id="pbi-kpi-adr">--</div>
+                        <div class="pbi-tile-label">Avg Daily Rate (ADR)</div>
+                    </div>
+                </div>
+
+                <!-- Power BI Canvas Visuals -->
+                <div class="charts-grid charts-2col">
+                    <div class="chart-card">
+                        <div class="pbi-visual-header">
+                            <span class="pbi-visual-title">Monthly Booking Trend & Cancellations</span>
+                            <span class="pbi-badge">Line Visual</span>
+                        </div>
+                        <div class="chart-container"><canvas id="chartPbiTrends"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="pbi-visual-header">
+                            <span class="pbi-visual-title">Room Type Volume & ADR</span>
+                            <span class="pbi-badge">Clustered Bar</span>
+                        </div>
+                        <div class="chart-container"><canvas id="chartPbiRooms"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="charts-grid charts-2col" style="margin-top: 20px;">
+                    <div class="chart-card">
+                        <div class="pbi-visual-header">
+                            <span class="pbi-visual-title">Distribution Channels Share</span>
+                            <span class="pbi-badge">Donut Visual</span>
+                        </div>
+                        <div class="chart-container"><canvas id="chartPbiChannels"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="pbi-visual-header">
+                            <span class="pbi-visual-title">Customer Origin (Top Countries)</span>
+                            <span class="pbi-badge">Horizontal Bar</span>
+                        </div>
+                        <div class="chart-container"><canvas id="chartPbiCountries"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mode 2: Exported PDF Report Viewer -->
+            <div class="pbi-view hidden" id="pbi-view-report">
+                <div class="pbi-pdf-banner">
+                    <div>
+                        <h3 style="margin-bottom: 4px; color: #0f172a;">📄 Executive PDF & Power BI Export Viewer</h3>
+                        <p style="color: #64748b; font-size: 0.9rem;">
+                            View full reports directly in your browser without needing a Microsoft/Power BI cloud account.
+                        </p>
+                    </div>
+                    <div class="pdf-actions">
+                        <a href="/reports/Hotel_Booking_Executive_Report.pdf" target="_blank" class="pdf-btn">Open in New Tab ↗</a>
+                        <a href="/reports/Hotel_Booking_Executive_Report.pdf" download class="pdf-btn pdf-btn-secondary">Download PDF ↓</a>
+                    </div>
+                </div>
+                <div class="pdf-viewer-container">
+                    <iframe src="/reports/Hotel_Booking_Executive_Report.pdf#toolbar=1" class="pdf-iframe" title="Hotel Booking Report PDF"></iframe>
+                </div>
+                <div class="pdf-tip">
+                    💡 <strong>Tip for Power BI Desktop:</strong> In Power BI Desktop, click <code>File → Export → Export to PDF</code> and save it in the <code>reports/</code> folder to display your custom visuals here instantly!
+                </div>
+            </div>
+
+            <!-- Mode 3: Cloud Embed (Optional) -->
+            <div class="pbi-view hidden" id="pbi-view-cloud">
+                <div class="powerbi-container">
+                    <div class="powerbi-placeholder" id="powerbiPlaceholder">
+                        <div class="powerbi-icon">☁️</div>
+                        <h3>Power BI Service Cloud Embed</h3>
+                        <p>If you have an organizational or school account with Power BI Pro, publish your <strong>DA_BI.pbix</strong> and paste the link below.</p>
+                        <div class="powerbi-steps">
+                            <div class="step"><span class="step-num">1</span> Open <code>powerbi/DA_BI.pbix</code> in Power BI Desktop</div>
+                            <div class="step"><span class="step-num">2</span> Click <strong>Publish</strong> → Select Workspace</div>
+                            <div class="step"><span class="step-num">3</span> In app.powerbi.com: <strong>File → Embed report → Website or portal</strong></div>
+                            <div class="step"><span class="step-num">4</span> Paste embed URL below</div>
+                        </div>
+                    </div>
+                    <iframe id="powerbi-embed" class="powerbi-iframe" src="" frameborder="0" allowfullscreen></iframe>
+                    <div class="powerbi-controls">
+                        <input type="text" id="powerbiUrl" class="powerbi-input" placeholder="Paste your Power BI Service embed URL here...">
+                        <button id="loadPowerBI" class="powerbi-btn">Load Report</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

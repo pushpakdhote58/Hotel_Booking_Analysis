@@ -1,0 +1,23 @@
+========================================================================
+PROJECT 30: HOTEL BOOKING BUSINESS INSIGHTS & STRATEGIC RECOMMENDATIONS
+========================================================================
+
+1. OCCUPANCY & CANCELLATION INSIGHTS:
+   - Overall cancellation rate stands at 27.49% (24,025 canceled reservations).
+   - City Hotel experiences a significantly higher cancellation rate (30.0%) compared to Resort Hotel (23.5%).
+   - Recommendation: Implement non-refundable deposit requirements for peak summer dates and high-risk booking channels.
+
+2. REVENUE OPTIMIZATION:
+   - Total booked revenue is $34,461,003.11, with $22,976,960.13 realized from completed check-outs.
+   - Peak revenue occurs in July and August with ADR climbing above $140/night.
+   - Dynamic pricing should be deployed to raise weekend ADR during high-demand summer months.
+
+3. DISTRIBUTION & BOOKING CHANNELS:
+   - The dominant channel is TA/TO (accounting for 79.1% of volume).
+   - Direct bookings deliver the highest profit margin due to zero OTA commission fees.
+   - Recommendation: Launch direct-booking loyalty perks (complimentary breakfast/parking) to migrate OTA customers.
+
+4. DEMOGRAPHICS & CUSTOMER PROFILES:
+   - Primary market nationality: PRT (31.4%), followed by GBR, FRA, ESP, and DEU.
+   - Average stay duration is 3.63 nights (Resort: 4.3 nights, City: 3.0 nights).
+   - Room Type A is by far the most popular room tier, generating over 70% of total bookings.

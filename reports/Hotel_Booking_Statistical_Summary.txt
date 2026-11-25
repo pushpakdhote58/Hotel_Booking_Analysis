@@ -1,0 +1,40 @@
+========================================================================
+PROJECT 30: HOTEL BOOKING & RESERVATION ANALYSIS - STATISTICAL SUMMARY
+========================================================================
+
+Dataset Record Count: 87,396 unique verified bookings
+Date Coverage:        2015-07-01 to 2017-08-31
+
+--- 6 CORE KPI CARDS ---
+Total Bookings:           87,396
+Occupancy Rate:           72.51%
+Total Booked Revenue:     $34,461,003.11
+Realized Check-Out Rev:   $22,976,960.13
+Average Stay Duration:    3.63 nights
+Cancellation Rate:        27.49%
+Average Room Price (ADR): $106.34
+
+--- NUMERICAL DISTRIBUTIONS ---
+       booking_duration       adr  total_revenue  total_guests  lead_time_days
+count          87396.00  87396.00       87396.00      87396.00        87396.00
+mean               3.63    106.34         394.31          2.03           79.89
+std                2.76     55.01         369.45          0.79           86.05
+min                0.00      0.00           0.00          0.00            0.00
+25%                2.00     72.00         152.48          2.00           11.00
+50%                3.00     98.10         299.00          2.00           49.00
+75%                5.00    134.00         503.20          2.00          125.00
+max               69.00   5400.00        7590.00         55.00          737.00
+
+--- REVENUE & OCCUPANCY BY HOTEL PROPERTY ---
+  * City Hotel:
+      Bookings:          53,428 (61.1%)
+      Total Revenue:     $18,774,101.54
+      Average ADR:       $110.99
+      Avg Stay Duration: 3.15 nights
+      Cancellation Rate: 30.04%
+  * Resort Hotel:
+      Bookings:          33,968 (38.9%)
+      Total Revenue:     $15,686,901.57
+      Average ADR:       $99.03
+      Avg Stay Duration: 4.39 nights
+      Cancellation Rate: 23.48%
